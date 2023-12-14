@@ -1,36 +1,33 @@
-/**
- * @param {string} s
- * @return {number}
- */
-var lengthOfLongestSubstring = function (s) {
+function lengthOfLongestSubstring(str) {
   let maxLength = 0;
   let currentSubstring = "";
-  for (let char of s) {
-    let index = currentSubstring.indexOf(char);
-    if (index !== -1) {
-      //滑动当前窗口的左边界
-      //当前字段重复出现在当前缓存的字符串中,那么从currentSubstring 里面 出现的同样字符位置起 截取字符作为下一个 currentSubstring;
-      currentSubstring = currentSubstring.slice(index + 1);
+  for (const char of str) {
+    const charIndexOfCurrentSubstring = currentSubstring.indexOf(char);
+    const isCharInCurrentSubstring = charIndexOfCurrentSubstring !== -1;
+    if (isCharInCurrentSubstring) {
+      //如果当前的字符被包含在之前的字符中,移动窗口的左边界到不包含该字符处(收缩当前窗口到正好不包含当前字符的位置)
+      currentSubstring = currentSubstring.slice(
+        charIndexOfCurrentSubstring + 1
+      );
+      //然后再添加上新的当前字符,这时候这个字符就保证了在currentSubstring 里面的唯一性,因为之前收缩窗口的时候已经收缩到了刚好没有char 的位置;
+      currentSubstring += char;
+    } else {
+      //如果当前的值没有被包含到currentSubstring 里面,那么当前字符串添加到currentSubstring 里面
+      currentSubstring += char;
     }
-    //滑动当前窗口的右边界
-    currentSubstring += char;
+    //对maxLength 赋值,
     maxLength = Math.max(maxLength, currentSubstring.length);
   }
   return maxLength;
-};
+}
 
-// 输入: s = "abcabcbb"
-// 输出: 3
-// 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
-
-// 输入: s = "pwwkew"
-// 输出: 3
-// 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
-//      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
-
-const result = lengthOfLongestSubstring("abcabcbb");
-// const result2 = lengthOfLongestSubstring("bbbbbbb");
-// const result3 = lengthOfLongestSubstring("pwwkew");
-// const result4 = lengthOfLongestSubstring("");
-
-console.log(result);
+const s1 = "abcabcbb";
+const s2 = "bbbbb";
+const s3 = "pwwkew";
+const s4 = "";
+const s5 = " ";
+console.log(lengthOfLongestSubstring(s1));
+console.log(lengthOfLongestSubstring(s2));
+console.log(lengthOfLongestSubstring(s3));
+console.log(lengthOfLongestSubstring(s4));
+console.log(lengthOfLongestSubstring(s5));

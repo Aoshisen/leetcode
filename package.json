@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "typescript": "^5.8.3",
+    "vite": "^7.0.3",
+    "vitest": "^3.2.4"
+  },
+  "name": "leetcode",
+  "scripts": {
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "test:watch": "vitest watch"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "aoshisen <aoshisen.23@gmail.com>",
+  "license": "MIT"
+}

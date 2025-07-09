@@ -1,4 +1,4 @@
-export function maxValue(events: number[][], k: number): number {
+export function maxValue(events, k) {
 	return findMax(getCombinations(events), k)
 };
 
@@ -45,7 +45,7 @@ function getCombinationWithLength(arr, k) {
 }
 
 
-function findMax(eventsArray: number[][], k: number): number {
+function findMax(eventsArray, k) {
 	const result = eventsArray.map((item) => _max(item, k))
 	return Math.max(...result)
 }
@@ -58,11 +58,11 @@ function _max(item, k) {
 	})
 	return Math.max(...test)
 }
-function isOk(eventsArray: number[][], event: number[]) {
+function isOk(eventsArray, event) {
 	//每个都不冲突那才是不冲突
 	return eventsArray.every(item => ok(item, event))
 }
-function ok(event1: number[], event2: number[]) {
+function ok(event1, event2) {
 	const [a1, b1, c1] = event1;
 	const [a2, b2, c2] = event2;
 	return a2 >= b1 || b2 <= a1;

@@ -16,28 +16,16 @@ var maxFreeTime = function (eventTime, k, startTime, endTime) {
 		return [start, end, duration_start, duration_end, (duration_start + duration_end) / 2]
 	}
 	)
-	let array = []
+	let result = 0;
 	for (let i = k; i < events.length + 1; i++) {
 		const current = events.slice(i - k, i)
-		array.push(current)
+		const leftMove = current.reduce((p, c) => p + c[2], current.at(-1)[3])
+		const rightMove = current.reduce((p, c) => p + c[3], current[0][2])
+		result = Math.max(result, leftMove, rightMove)
 	}
-	console.log(array)
-	const maxArray = array.sort((a, b) => sum(b) - sum(a))[0]
-	console.log(maxArray,"<<<<<<<<<<<<,")
-	//起始时间大于
-	if (maxArray[0][2] > maxArray.at(-1)[3]) {
-		//左移
-		return maxArray.reduce((prev, current) => current[3] + prev, maxArray[0][2])
-	} else {
-		//右移
-		return maxArray.reduce((prev, current) => current[2] + prev, maxArray.at(-1)[3])
-	}
+	return result
 };
-function sum(array) {
-	return array.reduce((prev, current) => {
-		return prev + current[4]
-	}, 0)
-}
+
 
 if (import.meta.vitest) {
 	const { it, expect } = import.meta.vitest
@@ -60,7 +48,7 @@ if (import.meta.vitest) {
 		const eventTime = 34, k = 2, startTime = [0, 17], endTime = [14, 19]
 		expect(maxFreeTime(eventTime, k, startTime, endTime)).equal(18)
 	})
-	it.only("case5", () => {
+	it("case5", () => {
 		const eventTime = 482, k = 2, startTime = [21, 67, 151, 448], endTime = [23, 132, 219, 449]
 		expect(maxFreeTime(eventTime, k, startTime, endTime)).equal(292)
 	})

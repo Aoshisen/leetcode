@@ -4,22 +4,27 @@
  */
 var longestConsecutive = function (nums) {
 	nums.sort((a, b) => a - b);
-	const dp = [];
+	let temp = [], result = 0;
 	for (let i = 0; i < nums.length; i++) {
 		const current = nums[i];
 		if (i === 0) {
-			dp.push([current])
-			continue;
+			temp.push(current)
+			continue
 		}
 		const prev = nums[i - 1];
-		if (prev === current - 1) {
-			dp[dp.length - 1].push(current)
-		} else if (prev < current - 1) {
-			dp.push([current])
+		const sub = (current - 1) - prev;
+
+		if (sub === 0) {
+			temp.push(current)
+		}
+		else if (sub > 0) {
+			result = Math.max(temp.length, result)
+			temp = [current]
 		}
 	}
-	return Math.max(...dp.map(i => i.length), 0)
+	return Math.max(result, temp.length);
 };
+
 if (import.meta.vitest) {
 	const { it, expect } = import.meta.vitest;
 	it('case1', () => {
@@ -44,6 +49,23 @@ if (import.meta.vitest) {
 	it('case3', () => {
 		const input = [];
 		const result = 0;
+		expect(longestConsecutive(input)).equal(result)
+	})
+
+	it('case3', () => {
+		const input = [0];
+		const result = 1;
+		expect(longestConsecutive(input)).equal(result)
+	})
+	it('case3', () => {
+		const input = [0, 0];
+		const result = 1;
+		expect(longestConsecutive(input)).equal(result)
+	})
+
+	it('case3', () => {
+		const input = [9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6];
+		const result = 7;
 		expect(longestConsecutive(input)).equal(result)
 	})
 

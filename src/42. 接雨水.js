@@ -1,40 +1,51 @@
-/**
- * @param {number[]} height
- * @return {number}
- */
+const sum = (arr) => arr.reduce((a, b) => a + b, 0);
 var trap = function (height) {
 	let result = 0;
 	let left = 0;
 	let right = 0;
-	for (let i = 1; i < height.length; i++) {
+	let collect = []
+	for (let i = 0; i < height.length; i++) {
 		const currentValue = height[i]
+
 		const leftValue = height[left]
-		const rightValue = height[right]
-		if (left === 0 && currentValue > 0) {
-			console.log(" 初始", i)
-			//给左边的锚点赋初值
-			left = i;
-			right = i;
-			continue;
-		}
-		//走下坡(当前的值小于右边的值 或者是当前的值小于左边的值)
 		if (currentValue < leftValue) {
-			console.log("当前值比 左边的值小", i)
-			right = i
-		} else if (currentValue >= leftValue) {
-			//制高点了
+			//当前值小于左值;
+			//如果当前值是后面值的最大值那么说明当前值是一个新的左边界
+			if (isLargest(currentValue, height.slice(left + 1))) {
+				//当前值是一个新的左边界
+				left = i;
+			} else {
+				//如果当前的值并不是后面值的最大值
+				//更新右边的边界,
+				right = i;
+				collect.push(currentValue);
+			}
+		}
+		else {
+			//当前值大于或者等于左值
+			//更新右边的值
+			//当前是一个勾的右边界也是下一个勾的左边界限
+			//计算当前collect的积水
+			// console.log("left", left, "right", right)
+			result += Math.min(leftValue, currentValue) * collect.length - sum(collect);
 			right = i;
-			left = i
-			console.log(" 制高点", currentValue)
+			left = i;
+			collect = [];
 		}
 	}
-	return 6
+	return result;
 };
+
+const isLargest = (value, arr) => {
+	return arr.every(item => item <= value);
+}
+
+
 
 if (import.meta.vitest) {
 	const { it, expect } = import.meta.vitest
 
-	it.only("case1", () => {
+	it("case1", () => {
 		const input = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
 		const result = 6
 		expect(trap(input)).equal(result);

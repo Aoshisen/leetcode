@@ -1,48 +1,70 @@
-const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+// const sum = (arr) => arr.reduce((a, b) => a + b, 0);
 
-const isLargest = (value, arr) => arr.every(item => item <= value);
+// const isLargest = (value, arr) => arr.every(item => item <= value);
 
-var trap = function (height) {
+// var trap = function (height) {
+// 	let result = 0;
+// 	let left = 0;
+// 	let right = 0;
+// 	let collect = []
+// 	for (let i = 0; i < height.length; i++) {
+// 		const currentValue = height[i]
+// 		const leftValue = height[left]
+// 		const calcAddedValue = Math.max(Math.min(leftValue, currentValue) * (right - left) - collect, 0);
+// 		const addCollectAndReset = () => {
+// 			left = i;
+// 			right = i;
+// 			collect = 0;
+// 			//计算collect的积水
+// 			result += calcAddedValue;
+// 		}
+// 		const isLargestValue = isLargest(currentValue, height.slice(left + 1));
+// 		if (currentValue < leftValue) {
+// 			//当前值小于左值;
+// 			//如果当前值是后面值的最大值那么说明当前值是一个新的左边界
+// 			if (isLargestValue) {
+// 				addCollectAndReset();
+// 			} else {
+// 				//如果当前的值并不是后面值的最大值
+// 				//更新右边的边界,
+// 				right = i;
+// 				collect += currentValue;
+// 			}
+// 		}
+// 		else {
+// 			//当前值大于或者等于左边的值
+// 			//更新右边的值
+// 			//当前是一个勾的右边界也是下一个勾的左边界限
+// 			//计算当前collect的积水
+// 			addCollectAndReset();
+// 		}
+// 	}
+// 	return result;
+// };
+
+const trap = function (height) {
+	if (height.length === 0) return 0;
+
 	let result = 0;
 	let left = 0;
-	let right = 0;
-	let collect = []
-	for (let i = 0; i < height.length; i++) {
-		const currentValue = height[i]
+	let right = height.length - 1;
+	let leftMax = height[left];
+	let rightMax = height[right];
 
-		const leftValue = height[left]
-		const calcAddedValue = Math.max(Math.min(leftValue, currentValue) * collect.length - sum(collect), 0);
-		const addCollectAndReset = () => {
-			left = i;
-			right = i;
-			collect = [];
-			//计算collect的积水
-			result += calcAddedValue;
-		}
-		const isLargestValue = isLargest(currentValue, height.slice(left + 1));
-		if (currentValue < leftValue) {
-			//当前值小于左值;
-			//如果当前值是后面值的最大值那么说明当前值是一个新的左边界
-			if (isLargestValue) {
-				addCollectAndReset();
-			} else {
-				//如果当前的值并不是后面值的最大值
-				//更新右边的边界,
-				right = i;
-				collect.push(currentValue);
-			}
-		}
-		else {
-			//当前值大于或者等于左边的值
-			//更新右边的值
-			//当前是一个勾的右边界也是下一个勾的左边界限
-			//计算当前collect的积水
-			addCollectAndReset();
+	while (left < right) {
+		if (leftMax < rightMax) {
+			left++;
+			leftMax = Math.max(leftMax, height[left]);
+			result += leftMax - height[left];
+		} else {
+			right--;
+			rightMax = Math.max(rightMax, height[right]);
+			result += rightMax - height[right];
 		}
 	}
+
 	return result;
 };
-
 
 
 

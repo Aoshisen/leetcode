@@ -4,20 +4,20 @@
  * @return {number}
  */
 var subarraySum = function (nums, k) {
-	let result = 0;
-	for (let index = 0; index < nums.length; index++) {
-		// 从当前位置向后看有无和为k的
-		let currentIndex = index;
-		let sum = nums[index];
-		while (currentIndex < nums.length) {
-			if (sum === k) {
-				result += 1;
-			}
-			currentIndex++
-			sum += nums[currentIndex]
-		}
-	}
-	return result;
+    let prefixSum = new Map();
+    prefixSum.set(0, 1); // 初始前缀和为 0 出现 1 次
+    let currentSum = 0;
+    let count = 0;
+
+    for (let num of nums) {
+        currentSum += num;
+        if (prefixSum.has(currentSum - k)) {
+            count += prefixSum.get(currentSum - k);
+        }
+        prefixSum.set(currentSum, (prefixSum.get(currentSum) || 0) + 1);
+    }
+
+    return count;
 };
 
 if (import.meta.vitest) {

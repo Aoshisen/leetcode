@@ -10,11 +10,10 @@ var maxSlidingWindow = function (nums, k) {
 		const current = nums[i];
 		currentMax = Math.max(currentMax, current);
 		if (i >= k - 1) {
-			result.push(Math.max(currentMax, current))
+			result.push(Math.max(...nums.slice(i - k + 1, i + 1)))
 		}
 	}
 	return result;
-
 };
 if (import.meta.vitest) {
 	const { it, expect } = import.meta.vitest

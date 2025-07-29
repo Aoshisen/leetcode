@@ -2,28 +2,42 @@
  * @param {number[]} nums
  * @return {number}
  */
-var longestConsecutive = function (nums) {
-	nums.sort((a, b) => a - b);
-	let temp = [], result = 0;
-	for (let i = 0; i < nums.length; i++) {
-		const current = nums[i];
-		if (i === 0) {
-			temp.push(current)
-			continue
-		}
-		const prev = nums[i - 1];
-		const sub = (current - 1) - prev;
+// var longestConsecutive = function (nums) {
+// 	nums.sort((a, b) => a - b);
+// 	let temp = [], result = 0;
+// 	for (let i = 0; i < nums.length; i++) {
+// 		const current = nums[i];
+// 		if (i === 0) {
+// 			temp.push(current)
+// 			continue
+// 		}
+// 		const prev = nums[i - 1];
+// 		const sub = (current - 1) - prev;
 
-		if (sub === 0) {
-			temp.push(current)
-		}
-		else if (sub > 0) {
-			result = Math.max(temp.length, result)
-			temp = [current]
-		}
-	}
-	return Math.max(result, temp.length);
+// 		if (sub === 0) {
+// 			temp.push(current)
+// 		}
+// 		else if (sub > 0) {
+// 			result = Math.max(temp.length, result)
+// 			temp = [current]
+// 		}
+// 	}
+// 	return Math.max(result, temp.length);
+// };
+var longestConsecutive = function(nums) {
+    const numsSet = new Set(nums)
+    let count = 0
+    for (const x of numsSet) {
+        if (numsSet.has(x - 1)) continue
+        let y = x + 1
+        while (numsSet.has(y)) {
+            y++
+        }
+        count = Math.max(count, y - x)
+    }
+    return count
 };
+
 
 if (import.meta.vitest) {
 	const { it, expect } = import.meta.vitest;

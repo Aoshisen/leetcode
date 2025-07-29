@@ -48,32 +48,31 @@
 
 //     return result;
 // };
-var maxSlidingWindow = function(nums, k) {
-        const n = nums.length
-    const p = new Int16Array(n)
-    const s = new Int16Array(n)
-    const r = new Int16Array(n - k + 1)
-    let i = n, j = -1
-    while (i--) {
-        p[++j] = j % k ? Math.max(p[j - 1], nums[j]) : nums[j]
-        s[i]   = i % k ? Math.max(s[i + 1], nums[i]) : nums[i]
-    }
-    while (i++ < n - k) r[i] = Math.max(s[i], p[i + k - 1])
-    return r
+var maxSlidingWindow = function (nums, k) {
+	const n = nums.length
+	const p = new Int16Array(n)
+	const s = new Int16Array(n)
+	const r = new Int16Array(n - k + 1)
+	let i = n, j = -1
+	while (i--) {
+		p[++j] = j % k ? Math.max(p[j - 1], nums[j]) : nums[j]
+		s[i] = i % k ? Math.max(s[i + 1], nums[i]) : nums[i]
+	}
+	while (i++ < n - k) r[i] = Math.max(s[i], p[i + k - 1])
+	return r
 };
 
 if (import.meta.vitest) {
 	const { it, expect } = import.meta.vitest
 	it("case1", () => {
 		const nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3
-		const result = [3, 3, 5, 5, 6, 7]
+		const result = new Int16Array([3, 3, 5, 5, 6, 7])
 		expect(maxSlidingWindow(nums, k)).toStrictEqual(result)
 	})
 
 	it("case2", () => {
 		const nums = [1], k = 1
-		const result = [1]
-		expect(maxSlidingWindow(nums, k)).toStrictEqual(result)
+		const result = new Int16Array([1])
+		expect(maxSlidingWindow(nums, k)).toEqual(result)
 	})
-
 }

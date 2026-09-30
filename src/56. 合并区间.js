@@ -3,44 +3,16 @@
  * @return {number[][]}
  */
 var merge = function (_intervals) {
+  if (_intervals.length === 0) return [];
   const intervals = _intervals.sort((a, b) => a[0] - b[0]);
-  let result = [intervals[0]];
-  function isCommon(interval, current) {
-    return interval[0] <= current[1] && interval[1] >= current[0];
-  }
-
-  function findCommons(intervals, current) {
-    const result = [];
-    intervals.forEach((interval, index) => {
-      if (isCommon(interval, current)) {
-        return result.push([interval, index]);
-      }
-    });
-    return result;
-  }
-
-  function mergeCommon(common, current) {
-    return [Math.min(common[0], current[0]), Math.max(common[1], current[1])];
-  }
-
+  const result = [intervals[0]]
   for (let i = 1; i < intervals.length; i++) {
     const current = intervals[i];
-    const commons = findCommons(result, current);
-    if (commons.length == 0) {
-      result.push(current);
+    const lastResult = result[result.length - 1];
+    if (current[0] <= lastResult[1]) {
+      lastResult[1] = Math.max(lastResult[1], current[1])
     } else {
-      let merged = current;
-      let needRemovedIndex = [];
-      for (let i = 0; i < commons.length; i++) {
-        const [common, index] = commons[i];
-        needRemovedIndex.push(index);
-        merged = mergeCommon(common, merged);
-      }
-      result = result.filter((_, i) => {
-        return !needRemovedIndex.includes(i);
-      });
-
-      result.push(merged);
+      result.push(current)
     }
   }
 

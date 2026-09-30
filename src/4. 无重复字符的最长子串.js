@@ -21,13 +21,26 @@ function lengthOfLongestSubstring(str) {
   return maxLength;
 }
 
-const s1 = "abcabcbb";
-const s2 = "bbbbb";
-const s3 = "pwwkew";
-const s4 = "";
-const s5 = " ";
-console.log(lengthOfLongestSubstring(s1));
-console.log(lengthOfLongestSubstring(s2));
-console.log(lengthOfLongestSubstring(s3));
-console.log(lengthOfLongestSubstring(s4));
-console.log(lengthOfLongestSubstring(s5));
+
+
+if (import.meta.vitest) {
+  const { it, expect } = import.meta.vitest;
+  it("case1", () => {
+    const s = "abcabcbb"
+    const result = 3
+    expect(lengthOfLongestSubstring(s)).toStrictEqual(result);
+  });
+
+  it("case2", () => {
+    const s = "bbbbb"
+    const result = 1
+    expect(lengthOfLongestSubstring(s)).toStrictEqual(result);
+  });
+
+  it("case3", () => {
+    const s = "pwwkew"
+    const result = 3
+    expect(lengthOfLongestSubstring(s)).toStrictEqual(result);
+  });
+
+}

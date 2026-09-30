@@ -5,28 +5,31 @@
  * @param {number[]} nums
  * @return {number}
  */
-
 var maxSubArray = function (nums) {
   let MAX = nums[0] || 0;
   let numbers = [];
+  let prev_total = 0;
   for (let i = 0; i < nums.length; i++) {
     let current = nums[i];
-    numbers.push(current);
-    if (numbers.length === 1) {
+    const current_total = prev_total + current;
+    if (prev_total <= 0 && current > MAX) {
+      //之前的所有值之和小于0，并且当前值大于MAX 需要重置MAX,numbers,prev_total
       MAX = current;
-    } else if (numbers[0] < 0) {
-      MAX = current + MAX - numbers[0];
-      numbers.shift();
-    } else if (current > MAX) {
       numbers = [current];
-      MAX = current;
+      prev_total = current;
     } else {
-      const currentSUM = numbers.reduce((acc, cur) => {
-        return acc + cur;
-      }, 0);
-      MAX = Math.max(currentSUM, MAX);
+      //不需要重置添加当前项目 到最后
+      if (current > prev_total && prev_total < 0) {
+        //如果当前的值大于之前的总和，那么需要重置 numbers,prev_total
+        numbers = [current];
+        prev_total = current;
+      } else {
+        //不需要重置，往后加
+        prev_total += current;
+        numbers.push(current);
+      }
+      MAX = Math.max(MAX, current_total);
     }
-    // console.log(MAX, numbers);
   }
   return MAX;
 };
@@ -39,13 +42,6 @@ if (import.meta.vitest) {
     expect(maxSubArray(input)).toStrictEqual(result);
   });
 
-  //[-2] -2
-  //[-2,1] -1 [1] 1
-  // [-2,1,-3] -4; [1,-3] -2 如果舍弃第一项 大于现在的值那么舍弃 如果当前数组的第一项
-  // [-2,1,-3,4]  [1,-3,4] [4] 舍弃1，-3，[4]
-  // [-2,1,-3,4,-1] [4,-1] 3 不舍弃
-  //如果当前数组的第一项为负数，那么舍弃，如果当前插入项大于 总和,那么舍弃所有，如果当前插入项小于 总和,那么插入
-
   it("case2", () => {
     const input = [1];
     const result = 1;
@@ -55,6 +51,48 @@ if (import.meta.vitest) {
   it("case3", () => {
     const input = [5, 4, -1, 7, 8];
     const result = 23;
+    expect(maxSubArray(input)).toStrictEqual(result);
+  });
+
+  it("case4", () => {
+    const input = [-1, -2];
+    const result = -1;
+    expect(maxSubArray(input)).toStrictEqual(result);
+  });
+
+  it("case5", () => {
+    const input = [-1, 0, -2];
+    const result = 0;
+    expect(maxSubArray(input)).toStrictEqual(result);
+  });
+
+  it("case6", () => {
+    const input = [8, -19, 5, -4, 20];
+    const result = 21;
+    expect(maxSubArray(input)).toStrictEqual(result);
+  });
+
+  it("case7", () => {
+    const input = [-2, -1];
+    const result = -1;
+    expect(maxSubArray(input)).toStrictEqual(result);
+  });
+
+  it("case8", () => {
+    const input = [-1, -1, -2, -2];
+    const result = -1;
+    expect(maxSubArray(input)).toStrictEqual(result);
+  });
+
+  it("case9", () => {
+    const input = [8, -19, 5, -4, 20];
+    const result = 21;
+    expect(maxSubArray(input)).toStrictEqual(result);
+  });
+
+  it("case10", () => {
+    const input = [31, -41, 59, 26, -53, 58, 97, -93, -23, 84];
+    const result = 187;
     expect(maxSubArray(input)).toStrictEqual(result);
   });
 }

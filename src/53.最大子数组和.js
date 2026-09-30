@@ -12,8 +12,9 @@ var maxSubArray = function (nums) {
   for (let i = 0; i < nums.length; i++) {
     let current = nums[i];
     const current_total = prev_total + current;
+
     if (prev_total <= 0 && current > MAX) {
-      //之前的所有值之和小于0，并且当前值大于MAX 需要重置MAX,numbers,prev_total
+      //之前的所有值之和小于0，并且当前值大于之前的MAX 需要重置所有为当前的current;
       MAX = current;
       numbers = [current];
       prev_total = current;

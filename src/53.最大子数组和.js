@@ -26,7 +26,7 @@ var maxSubArray = function (nums) {
       }, 0);
       MAX = Math.max(currentSUM, MAX);
     }
-    console.log(MAX, numbers);
+    // console.log(MAX, numbers);
   }
   return MAX;
 };

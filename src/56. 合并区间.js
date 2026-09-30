@@ -2,28 +2,25 @@
  * @param {number[][]} intervals
  * @return {number[][]}
  */
-var merge = function (intervals) {
+var merge = function (_intervals) {
+  const intervals = _intervals.sort((a, b) => a[0] - b[0]);
   let result = [intervals[0]];
   function isCommon(interval, current) {
-    const [start, end] = current;
-    const [interval_start, interval_end] = interval;
-    return interval_start <= end && interval_end >= start;
+    return interval[0] <= current[1] && interval[1] >= current[0];
   }
+
   function findCommons(intervals, current) {
-    const commons = intervals
-      .map((interval, index) => {
-        if (isCommon(interval, current)) {
-          return [interval, index];
-        }
-        return undefined;
-      })
-      .filter(Boolean);
-    return commons;
+    const result = [];
+    intervals.forEach((interval, index) => {
+      if (isCommon(interval, current)) {
+        return result.push([interval, index]);
+      }
+    });
+    return result;
   }
+
   function mergeCommon(common, current) {
-    const [start, end] = common;
-    const [current_start, current_end] = current;
-    return [Math.min(start, current_start), Math.max(end, current_end)];
+    return [Math.min(common[0], current[0]), Math.max(common[1], current[1])];
   }
 
   for (let i = 1; i < intervals.length; i++) {
@@ -33,9 +30,10 @@ var merge = function (intervals) {
       result.push(current);
     } else {
       let merged = current;
-      let needRemovedIndex = commons.map((i) => i[1]);
+      let needRemovedIndex = [];
       for (let i = 0; i < commons.length; i++) {
-        const [common] = commons[i];
+        const [common, index] = commons[i];
+        needRemovedIndex.push(index);
         merged = mergeCommon(common, merged);
       }
       result = result.filter((_, i) => {
@@ -46,7 +44,7 @@ var merge = function (intervals) {
     }
   }
 
-  return result.sort((i, j) => i[0] - j[0]);
+  return result;
 };
 
 if (import.meta.vitest) {

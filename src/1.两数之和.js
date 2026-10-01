@@ -36,7 +36,7 @@ if (import.meta.vitest) {
     expect(twoSum(nums, target)).toStrictEqual(result);
   });
 
-  it.only("case3", () => {
+  it("case3", () => {
     const nums = [3, 3],
       target = 6;
     const result = [0, 1];

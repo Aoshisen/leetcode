@@ -81,7 +81,7 @@ if (import.meta.vitest) {
 		const result = [[0, 0, 0, 0], [0, 4, 5, 0], [0, 3, 1, 0]]
 		expect(setZeroes(matrix)).toStrictEqual(result)
 	})
-	it.only("case3", () => {
+	it("case3", () => {
 		const matrix = [[-1, 2147483647, 3], [4, -2147483648, 6], [42, 6969, 8]]
 		const result = [[-1, 2147483647, 3], [4, -2147483648, 6], [42, 6969, 8]]
 		expect(setZeroes(matrix)).toStrictEqual(result)

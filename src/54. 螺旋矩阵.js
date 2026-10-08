@@ -24,7 +24,7 @@ var spiralOrder = function (matrix) {
 			// 从左到右边
 			for (let x = min_row; x <= max_row; x++) {
 				const current = get(x, min_row)
-				console.log("从左到右边:", current)
+				// console.log("从左到右边:", current)
 				result.push(current)
 			}
 			flag++;
@@ -34,7 +34,7 @@ var spiralOrder = function (matrix) {
 			// 从上到下
 			for (let y = min_col; y <= max_col; y++) {
 				const current = get(max_row, y)
-				console.log("从上到下", current)
+				// console.log("从上到下", current)
 				result.push(current)
 			}
 			flag++;
@@ -44,7 +44,7 @@ var spiralOrder = function (matrix) {
 			// 从右到左
 			for (let x = max_row; x >= min_row; x--) {
 				const current = get(x, max_col);
-				console.log("从右到左:", current)
+				// console.log("从右到左:", current)
 				result.push(current)
 			}
 			flag++;
@@ -54,7 +54,7 @@ var spiralOrder = function (matrix) {
 			// 从下到上
 			for (let y = max_col; y >= min_col; y--) {
 				const current = get(min_row, y)
-				console.log("从下到上:", current)
+				// console.log("从下到上:", current)
 				result.push(current)
 			}
 			flag = 0;
